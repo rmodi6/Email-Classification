@@ -1,0 +1,34 @@
+Message-ID: <20764784.1075858665371.JavaMail.evans@thyme>
+Date: Fri, 21 Sep 2001 14:31:41 -0700 (PDT)
+From: bob.hansen@enron.com
+To: narsimha.misra@enron.com, michele.raque@enron.com
+Subject: BGE Index Product - Change to LMP BGE Zone Index
+Cc: liqun.pan@enron.com, c..aucoin@enron.com, ees.cross@enron.com, 
+	john.burrows@enron.com, gillian.johnson@enron.com, 
+	james.wood@enron.com, richard.ring@enron.com, john.gordon@enron.com
+Mime-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
+Bcc: liqun.pan@enron.com, c..aucoin@enron.com, ees.cross@enron.com, 
+	john.burrows@enron.com, gillian.johnson@enron.com, 
+	james.wood@enron.com, richard.ring@enron.com, john.gordon@enron.com
+X-From: Hansen, Bob </O=ENRON/OU=NA/CN=RECIPIENTS/CN=NOTESADDR/CN=CA60FA71-94865C7E-8625690C-5A1128>
+X-To: Misra, Narsimha </O=ENRON/OU=NA/CN=RECIPIENTS/CN=NMISRA>, Raque, Michele </O=ENRON/OU=NA/CN=RECIPIENTS/CN=MRAQUE>
+X-cc: Pan, Liqun </O=ENRON/OU=NA/CN=RECIPIENTS/CN=LPAN>, Aucoin, Berney C.  </O=ENRON/OU=NA/CN=RECIPIENTS/CN=BAUCOIN>, Cross, Edith EES </O=ENRON/OU=NA/CN=RECIPIENTS/CN=ECROSS>, Burrows, John </O=ENRON/OU=NA/CN=RECIPIENTS/CN=NOTESADDR/CN=829A5930-89CC41E8-8625661F-707D5F>, Johnson, Gillian </O=ENRON/OU=NA/CN=RECIPIENTS/CN=NOTESADDR/CN=3E222190-9C017A5E-86256A25-5553FD>, Wood, James </O=ENRON/OU=NA/CN=RECIPIENTS/CN=NOTESADDR/CN=6BA01492-A5B28689-8625689B-637DB4>, Ring, Richard </O=ENRON/OU=NA/CN=RECIPIENTS/CN=RRING>, Gordon, John </O=ENRON/OU=NA/CN=RECIPIENTS/CN=NOTESADDR/CN=2CE1C003-A1244688-62569EC-5938BC>
+X-bcc: 
+X-Folder: \RRING (Non-Privileged)\PersonalFolder
+X-Origin: Ring-R
+X-FileName: RRING (Non-Privileged)1.pst
+
+Narsimha/Michele,
+
+Thanks for helping us with this index product issue.
+
+We were initially planning to use an East Hub index with a basis of all uplifts, but Gillian and I agree with you on the advantages of using an index of PJM LMP zonal prices including all uplifts.  The product will certainly be more comparable to BGE's standard offer pricing, and it will eliminate the basis risk that you would have had with the East Hub index product.  A BGE zone index product will also eliminate the price comparison issues we had due to congestion.  
+
+Based on today's discussion we will modify the design of the BGE index product proposal to reflect a pass-through of LMP BGE zone prices and uplifts.  The basis for this product would simply be deal costs and origination margin.
+
+Gillian and I will work with Berney's group on changes to the TC, and a modified Product Approval Template will be routed soon.
+
+Thanks again,
+Bob

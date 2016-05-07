@@ -1,0 +1,29 @@
+Message-ID: <26058838.1075858664750.JavaMail.evans@thyme>
+Date: Thu, 4 Oct 2001 15:38:27 -0700 (PDT)
+From: anthony.dayao@enron.com
+Subject: IT Update: Security/Stability of Revenue-Producing Systems
+Mime-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
+X-From: Dayao, Anthony </O=ENRON/OU=NA/CN=RECIPIENTS/CN=NOTESADDR/CN=F413C83A-4BDDD069-86256A40-55A8EB>
+X-To: EES Employees@ENRON
+X-cc: 
+X-bcc: 
+X-Folder: \RRING (Non-Privileged)\PersonalFolder
+X-Origin: Ring-R
+X-FileName: RRING (Non-Privileged)1.pst
+
+In our continuing effort to provide security and stability to the revenue-producing systems here at EES, we would like to ask for your assistance with a few items.  In general, we want to ensure that all business critical systems are clear from the risk of downtime, which could negatively impact the business.
+
+So, what does this mean to you?  We need to make sure that any computer programs and files you use to do your job are protected and reside in an environment that is controlled by the IT infrastructure group.  This serves several purposes, including:
+
+Ensuring that everything business critical is backed up properly and can be recovered if a workstation's hard drive fails.
+Ensuring that specialized programs like Cobra or BSOC or RPS or RGS which are business critical can easily be installed on any workstation by the IT group.  This will help keep the business up and running if you have to switch workstations suddenly.
+
+Specialized applications - If you use any special program to do your work, such as WinAT or some other database, analysis, or special utility tool, the IT infrastructure group should be made aware of it so that they can learn how to install and maintain it.  This way, if an elephant sneaks into the office one night and steps on your computer, we can build out another workstation, install the specialized programs on it for you, and deliver it to you so that you can continue to do your job.  Please contact Christine Nguyen at (713) 345-8459 if you think your computer application is not currently maintained by IT.
+
+Files: Spreadsheets, Excel macros, MS Access databases, and the like - Please make sure that any spreadsheets or MS Access databases you use for the business are not stored on your local computer drives.  These files should be stored on a network-shared drive (in general, something other than C or D drive).  That way, if that elephant comes back another night, we could get you another workstation from which to operate without losing any of your valuable work.
+
+Web sites - If you are responsible for maintaining a web site that is business critical, including those used by inside as well as outside customers, we need to make sure that this web site is hosted on one of the fault-tolerant redundant web servers provided by IT infrastructure, and not running on a laptop tucked away under your desk.  This will help keep the web site available to those who need it in the event of power outages, server failures, and other unforeseen hardware-related problems.  Please contact Larry Hack at (713) 345-5783 if you think your web site is not currently maintained by IT.
+
+Your support with this effort is greatly appreciated.
