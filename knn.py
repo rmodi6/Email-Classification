@@ -90,7 +90,7 @@ def main():
 	trainingSet = []
 	testSet=[]
 	split = 0.67
-	current_path = "C:/Users/Ruchit/Desktop/FYP/Implementation/knn/"
+	current_path = os.path.dirname(os.path.abspath(__file__)) + "\\"
 
 	print("Loading DataSet...")
 	loadDataset(current_path, 'mergedworkfile.csv', split, trainingSet, testSet)
