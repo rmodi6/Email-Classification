@@ -4,8 +4,8 @@ import matplotlib.pyplot as plt
 
 if __name__ == '__main__':
 	folder_names = ["calendar", "meetings", "personal"]
-	folder_path = "C:/Users/Ruchit/Desktop/FYP/Enron Dataset/test small/"
-	current_path = "C:/Users/Ruchit/Desktop/FYP/Implementation/knn/"
+	folder_path = os.path.dirname(os.path.abspath(__file__)) + "\\dataset\\"
+	current_path = os.path.dirname(os.path.abspath(__file__)) + "\\"
 	workfilename = 'mergedworkfile.csv'
 	wordfilename = 'wordfile.csv'
 	klist = [1, 3, 7, 15, 24, 33, 42, 50]
