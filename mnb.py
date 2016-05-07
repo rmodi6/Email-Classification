@@ -1,4 +1,5 @@
 # Example of Naive Bayes implemented from Scratch in Python
+import os
 import csv
 import random
 import math
@@ -20,7 +21,6 @@ def splitDataset(dataset, splitRatio):
 		trainSet.append(copy.pop(index))
 	return [trainSet, copy]
 
-
 def separateByClass(dataset):
 	separated = {}
 	for i in range(len(dataset)):
@@ -29,7 +29,6 @@ def separateByClass(dataset):
 			separated[vector[-1]] = []
 		separated[vector[-1]].append(vector)
 	return separated
-
 
 def summarize(dataset,noofClasses):
 	summaries = {}
@@ -65,8 +64,6 @@ def summarizeByClass(dataset):
 	summaries = summarize(dataset,len(classproirprobabilities))
 	return [summaries,classproirprobabilities]
 
-
-
 def calculateClassProbabilities(summaries,classproirprobabilities, inputVector):
 	probabilities = {}
 	for classValue, classSummaries in summaries.items():
@@ -88,18 +85,18 @@ def predict(summaries, classproirprobabilities,inputVector):
 			bestLabel = classValue
 	return bestLabel
 
-def getPredictions(summaries, classproirprobabilities, testSet, current_path):
+def getPredictions(summaries, classproirprobabilities, testSet, path):
 	predictions = []
-	outfile = open(current_path + "predicted_class.csv",'w') # open file for appending
+	outfile = open(path + "predicted_class.csv",'w') # open file for appending
 
-	print('Completed 0.0%', end = '\r')
+	print('Completed 0.00%', end = '\r')
 	for i in range(len(testSet)):
 		result = predict(summaries, classproirprobabilities,testSet[i])
 		outfile.write(str(result)+"\n")
 		predictions.append(result)
 		completed = (i+1)*100/len(testSet)
 		print('Completed {0:.2f}%'.format(completed), end = '\r')	
-	print('Completed 100.0%')
+	print('Completed 100.00%')
 
 	return predictions
 
@@ -110,18 +107,24 @@ def getAccuracy(testSet, predictions):
 			correct += 1
 	return (correct/float(len(testSet))) * 100.0
 
-def main():
-	filename = 'mergedworkfile.csv'
-	splitRatio = [0.5, 0.6, 0.7, 0.8]
+def main(dataset_name):
+	current_path = os.path.dirname(os.path.abspath(__file__)) + "\\"
+	dataset_path = current_path + dataset_name + "\\"
+	results_path = dataset_path + "results\\"
+
+	if not os.path.exists(results_path):
+		os.mkdir(results_path)
+
+	splitRatio = [0.6]
 	accuracylist=[]
+	dataset = loadCsv(dataset_path + "mergedworkfile.csv")
 	for i in range(len(splitRatio)):
-		dataset = loadCsv(filename)
 		trainingSet, testSet = splitDataset(dataset, splitRatio[i])
 		print('Split ratio:{0}% \nSplit {1} rows into train={2} and test={3} rows'.format(splitRatio[i]*100, len(dataset), len(trainingSet), len(testSet)))
 		# prepare model
 		summaries,classproirprobabilities = summarizeByClass(trainingSet)
 		# test model
-		predictions = getPredictions(summaries,classproirprobabilities, testSet)
+		predictions = getPredictions(summaries, classproirprobabilities, testSet, results_path)
 		accuracy = getAccuracy(testSet, predictions)
 		accuracylist.append(accuracy)
 		print('Accuracy: {0}%'.format(accuracy))
@@ -132,4 +135,4 @@ def main():
 	plt.show()
 
 if __name__ == '__main__':
-	main()
+	main("dataset")

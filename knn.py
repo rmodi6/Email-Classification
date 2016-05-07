@@ -59,10 +59,9 @@ def getAccuracy(testSet, predictions):
 			correct += 1
 	return (correct/float(len(testSet))) * 100.0
 
-def classify(klist, trainingSet, testSet, current_path):
+def classify(klist, trainingSet, testSet, path):
 	list_of_predictions = []
-	# make output file for predicted state
-	print('Completed 0.0%', end = '\r')
+	print('Completed 0.00%', end = '\r')
 	for x in range(len(testSet)):
 		predictions = []
 		neighbors = getNeighbors(trainingSet, testSet[x], klist[-1])
@@ -73,17 +72,16 @@ def classify(klist, trainingSet, testSet, current_path):
 		completed = (x+1)*100/len(testSet)
 		print('Completed {0:.2f}%'.format(completed), end = '\r')
 		#print('> predicted=' + repr(result) + ', actual=' + repr(testSet[x][-1]))
-	print('Completed 100.0%')
+	print('Completed 100.00%')
 
 	for i in range(len(klist)):
-		outfile = open(current_path + "predicted_class_"+str(klist[i])+".csv",'w') # open file for appending
+		outfile = open(path + "predicted_class_"+str(klist[i])+".csv",'w') # open file for appending
 		for x in range(len(testSet)):	
 			outfile.write(str(list_of_predictions[x][i])+"\n")
 
 	return list_of_predictions
 	
-def main():
-	# prepare data
+def main(dataset_name):
 	klist = [1, 3, 7, 15, 24, 33, 42, 50]
 	acc = []
 	ks = []
@@ -91,13 +89,18 @@ def main():
 	testSet=[]
 	split = 0.67
 	current_path = os.path.dirname(os.path.abspath(__file__)) + "\\"
+	dataset_path = current_path + dataset_name + "\\"
+	results_path = dataset_path + "results\\"
 
-	print("Loading DataSet...")
-	loadDataset(current_path, 'mergedworkfile.csv', split, trainingSet, testSet)
+	if not os.path.exists(results_path):
+		os.mkdir(results_path)
+
+	print("Loading Dataset...")
+	loadDataset(dataset_path, 'mergedworkfile.csv', split, trainingSet, testSet)
 	print ('Train set length: ' + repr(len(trainingSet)))
 	print ('Test set length: ' + repr(len(testSet)))
 	
-	list_of_predictions = classify(klist, trainingSet, testSet, current_path)
+	list_of_predictions = classify(klist, trainingSet, testSet, results_path)
 		
 	for i in range(len(klist)):
 		predictions = []
@@ -109,11 +112,13 @@ def main():
 		print('K: ' + repr(klist[i]))
 		print('Accuracy: ' + repr(accuracy) + '%')
 
-	print('Overall Accuracy: '+str(sum(acc)/len(acc))+"%")
+	print('Overall Accuracy: '+ str(sum(acc)/len(acc)) + "%")
 	plt.plot(ks, acc)
 	plt.xlabel('K')
 	plt.ylabel('Accuracy')
 	plt.show()
+	
+	print('Find the results at: ' + results_path)
 
 if __name__ == '__main__':
-	main()
+	main("dataset")

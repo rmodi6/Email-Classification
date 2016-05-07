@@ -38,7 +38,9 @@ if __name__ == '__main__':
 
 				elif choice2 == 3:
 					# Classify New Emails
-					pass
+					dataset_name = input('Enter the name of dataset folder to be used as training set: ')
+					new_emails_name = input('Enter the name of new emails folder: ')
+					knn_classify.main(dataset_name, new_emails_name, new_emails = True)
 
 				elif choice2 == 4:
 					break
@@ -65,11 +67,13 @@ if __name__ == '__main__':
 					# Classify Testset
 					dataset_name = input('Enter the name of dataset folder to be used as training set: ')
 					testset_name = input('Enter the name of test set folder: ')
-					knn_classify.main(dataset_name, testset_name)
+					mnb_classify.main(dataset_name, testset_name)
 
 				elif choice2 == 3:
 					# Classify New Emails
-					pass
+					dataset_name = input('Enter the name of dataset folder to be used as training set: ')
+					new_emails_name = input('Enter the name of new emails folder: ')
+					mnb_classify.main(dataset_name, new_emails_name, new_emails = True)
 
 				elif choice2 == 4:
 					break

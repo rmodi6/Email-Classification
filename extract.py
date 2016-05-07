@@ -24,7 +24,7 @@ def get_token_dict(folder_path, folder_names):
 	token_dict = {}
 
 	for var in range(len(folder_names)):
-		path = folder_path + folder_names[var] + '/'
+		path = folder_path + folder_names[var] + "\\"
 		for dirpath, dirs, files in os.walk(path):
 			for f in files:
 				fname = os.path.join(dirpath, f)
@@ -36,6 +36,7 @@ def get_token_dict(folder_path, folder_names):
 	return token_dict
 
 def collectFeatures():
+	w = []
 	subd, wordsd = {}, {}
 	digramsd={}
 	trigramsd={}
@@ -169,11 +170,13 @@ def collectFeatures():
 				#         fp.write(f.name+":%s:%s\n" % p)
 				# for p in wordsd.items():
 				#         fp.write(f.name+":%s:%s\n" % p)
+
 	return subd, wordsd, digramsd, trigramsd, count_number, count_mail, count_url
 
 def makefiles(workfilename, wordfilename):
-	fw = open(current_path + workfilename, 'w')
-	words_file = open(current_path + wordfilename, 'w')
+	w = []
+	fw = open(folder_path + workfilename, 'w')
+	words_file = open(folder_path + wordfilename, 'w')
 	counter=0
 	stop=stopwords.words("english")
 	
@@ -379,6 +382,7 @@ def loadTrainingset(current_path, workfilename, wordfilename, trainingSet):
 	return wordsd, subd, digramsd, trigramsd
 
 def loadTestset(folder_path, folder_names, wordsd, subd, digramsd, trigramsd):
+	w = []
 	testSet = []
 	numbers=[]
 	dollars=[]
@@ -388,12 +392,13 @@ def loadTestset(folder_path, folder_names, wordsd, subd, digramsd, trigramsd):
 	count_dollar=[]
 	count_mail=[]
 	count_url=[]
+	all_files = []
 	counter=0	
 	subject_weight = 4
 	similarity_cutoff = 0.8
 	stop=stopwords.words("english")
-	path = "C:/Users/Ruchit/Desktop/FYP/Enron Dataset/custom folders 1/"
-	token_dict = get_token_dict(path, folder_names)
+
+	token_dict = get_token_dict(folder_path, folder_names)
 	tfidf = TfidfVectorizer(tokenizer=tokenize, stop_words='english')
 	tfs = tfidf.fit_transform(token_dict.values())
 	
@@ -403,6 +408,7 @@ def loadTestset(folder_path, folder_names, wordsd, subd, digramsd, trigramsd):
 
 		for fo in listdir(mypath):
 			if isfile(join(mypath,fo)):
+				all_files.append(mypath + '/' + fo)
 				temp_list = []
 				subd_temp={}
 				wordsd_temp={}
@@ -605,16 +611,19 @@ def loadTestset(folder_path, folder_names, wordsd, subd, digramsd, trigramsd):
 				counter += 1
 
 				testSet.append(temp_list)
-	return testSet
-					
-if __name__ == '__main__':
-	w = []
+	return testSet, all_files
+
+def main(dataset_name):
+	global folder_names, subject_weight, cut_off, current_path, folder_path
+	global subd, wordsd, digramsd, trigramsd, count_number, count_mail, count_url
+
 	subject_weight = 3
 	cut_off = 30
 
-	folder_names = ["calendar", "meetings", "personal"]
-	folder_path = os.path.dirname(os.path.abspath(__file__)) + "\\dataset\\"
 	current_path = os.path.dirname(os.path.abspath(__file__)) + "\\"
+	folder_path = current_path + dataset_name + "\\"
+	folder_names = next(os.walk(folder_path + "."))[1]
+	# folder_names = ["calendar"]
 
 	print('Collecting Features...')
 	subd, wordsd, digramsd, trigramsd, count_number, count_mail, count_url = collectFeatures()
@@ -623,3 +632,6 @@ if __name__ == '__main__':
 	print('Making Workfile...')
 	makefiles('mergedworkfile.csv', 'wordfile.csv')
 	print('Workfile complete.\nProgram run successful.')
+					
+if __name__ == '__main__':
+	main("dataset")
