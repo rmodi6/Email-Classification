@@ -613,7 +613,7 @@ if __name__ == '__main__':
 	cut_off = 30
 
 	folder_names = ["calendar", "meetings", "personal"]
-	folder_path = "C:/Users/Ruchit/Desktop/FYP/Enron Dataset/custom folders 1/"
+	folder_path = "dataset/"
 	current_path = "C:/Users/Ruchit/Desktop/FYP/Implementation/knn/"
 
 	print('Collecting Features...')
