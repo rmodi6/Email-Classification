@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 
 if __name__ == '__main__':
 	folder_names = ["calendar", "meetings", "personal"]
-	folder_path = os.path.dirname(os.path.abspath(__file__)) + "\\dataset\\"
+	folder_path = os.path.dirname(os.path.abspath(__file__)) + "\\testset\\"
 	current_path = os.path.dirname(os.path.abspath(__file__)) + "\\"
 	workfilename = 'mergedworkfile.csv'
 	wordfilename = 'wordfile.csv'
