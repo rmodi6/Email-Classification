@@ -613,8 +613,8 @@ if __name__ == '__main__':
 	cut_off = 30
 
 	folder_names = ["calendar", "meetings", "personal"]
-	folder_path = "C:/Users/Ruchit/Desktop/FYP/Enron Dataset/custom folders 1/"
-	current_path = "C:/Users/Ruchit/Desktop/FYP/Implementation/knn/"
+	folder_path = os.path.dirname(os.path.abspath(__file__)) + "\\dataset\\"
+	current_path = os.path.dirname(os.path.abspath(__file__)) + "\\"
 
 	print('Collecting Features...')
 	subd, wordsd, digramsd, trigramsd, count_number, count_mail, count_url = collectFeatures()
