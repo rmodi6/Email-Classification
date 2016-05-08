@@ -5,7 +5,7 @@ import email
 
 class Mail():
 
-	GMAIL_IMAP_HOST = 'imap.gmail.com'
+	GMAIL_IMAP_HOST = 'imap.googlemail.com'
 	OUTLOOK_IMAP_HOST = 'imap-mail.outlook.com'
 
 	def __init__(self):
@@ -106,4 +106,6 @@ class Mail():
 
 if __name__ == '__main__':
 	e = Mail()
+	usr = ''
+	pwd = ''
 	e.login(usr, pwd)
