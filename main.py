@@ -84,5 +84,6 @@ if __name__ == '__main__':
 		elif choice == 4:
 			# Exit
 			exit(0)
+
 		else:
 			print('Invalid Choice.')
