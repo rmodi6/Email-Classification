@@ -1,19 +1,63 @@
-import extract as ex
+import os
 import knn
 import mnb
 import knn_classify
+import mnb_classify
+import extract as ex
+from mail import Mail
+from pprint import pprint
+from getpass import getpass
 
 if __name__ == '__main__':
+	current_path = os.path.dirname(os.path.abspath(__file__)) + "\\"
 	choice = 0
-	while choice != 4:
+	while choice != 5:
 		print('\nMenu:')
-		print('1 -> Create Dataset.\n2 -> Classify using kNN.\n3 -> Classify using MNB.\n4 -> Exit.')
+		print('1 -> Create Dataset.\n2 -> Classify using kNN.\n3 -> Classify using MNB.\n4 -> Fetch New Emails.\n5 -> Exit.')
 		choice = int(input('Enter your choice: '))
 		
 		if choice == 1:
 			# Create Dataset
-			dataset_name = input('Enter the name of dataset folder: ')
-			ex.main(dataset_name)
+			reply = input('Do you want get emails from your email account? (y/n): ')[0].lower()
+			if reply == 'n':
+				dataset_name = input('Enter the name of existing dataset folder: ')
+				ex.main(dataset_name)
+			elif reply == 'y':
+				usr = input('Email: ')
+				pwd = getpass('Password: ')
+				e = Mail()
+				success = e.login(usr, pwd)
+				if success:
+					dataset_name = input('Enter a name for your dataset: ')
+					dataset_path = current_path + dataset_name + "\\"
+					if not os.path.exists(dataset_path):
+						os.mkdir(dataset_path)
+
+					print('Your Folders:')
+					pprint(e.list())
+					folder_names = []
+					print('Enter folder names you want in your dataset: (New line when done)')
+					while True:
+						name = input()
+						if name == '':
+							if len(folder_names) < 2:
+								print('Enter atleast two Folders!')
+								continue
+							else:
+								break
+						success = e.select(name)
+						if success:
+							folder_names.append(name)
+
+					for label in folder_names:
+						print('Fetching mails from ' + label + '...')
+						e.fetch_mailbox(dataset_path, label)
+
+					e.logout()
+					ex.main(dataset_name)
+
+			else:
+				print('Invalid Input.')
 
 		elif choice == 2:
 			# Classify using kNN
@@ -82,6 +126,20 @@ if __name__ == '__main__':
 					print('Invalid choice.')
 		
 		elif choice == 4:
+			# Fetch new Emails
+			usr = input('Email: ')
+			pwd = getpass('Password: ')
+			e = Mail()
+			success = e.login(usr, pwd)
+			if success:
+				new_emails_name = input('Enter a folder name to store new emails: ')
+				new_emails_path = current_path + new_emails_name + "\\"
+				if not os.path.exists(new_emails_path):
+					os.mkdir(new_emails_path)
+
+				e.fetch_unread(new_emails_path)
+
+		elif choice == 5:
 			# Exit
 			exit(0)
 
