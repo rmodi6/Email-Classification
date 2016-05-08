@@ -22,6 +22,7 @@ def loadDataset(current_path, filename, split, trainingSet=[] , testSet=[]):
 				testSet.append(dataset[x])
 				#testlabels.write(str(label[x]))
 
+#Calculates the hamming distance between two features
 def hammingDistance(instance1, instance2, length):
 	distance = 0
 	for x in range(length):
