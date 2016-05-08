@@ -134,5 +134,7 @@ def main(dataset_name):
 	plt.ylabel('Accuracy %')
 	plt.show()
 
+	print('Find the results at: ' + results_path)
+
 if __name__ == '__main__':
 	main("dataset")
