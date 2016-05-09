@@ -115,12 +115,12 @@ def main(dataset_name):
 	if not os.path.exists(results_path):
 		os.mkdir(results_path)
 
-	splitRatio = [0.6]
+	splitRatio = [0.5, 0.6, 0.7, 0.8]
 	accuracylist=[]
 	dataset = loadCsv(dataset_path + "mergedworkfile.csv")
 	for i in range(len(splitRatio)):
 		trainingSet, testSet = splitDataset(dataset, splitRatio[i])
-		print('Split ratio:{0}% \nSplit {1} rows into train={2} and test={3} rows'.format(splitRatio[i]*100, len(dataset), len(trainingSet), len(testSet)))
+		print('Split ratio: {0}% \nSplit {1} rows into train={2} and test={3} rows'.format(splitRatio[i]*100, len(dataset), len(trainingSet), len(testSet)))
 		# prepare model
 		summaries,classproirprobabilities = summarizeByClass(trainingSet)
 		# test model

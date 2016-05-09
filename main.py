@@ -138,6 +138,7 @@ if __name__ == '__main__':
 					os.mkdir(new_emails_path)
 
 				e.fetch_unread(new_emails_path)
+			e.logout()
 
 		elif choice == 5:
 			# Exit

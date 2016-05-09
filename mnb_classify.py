@@ -32,7 +32,6 @@ def main(dataset_name, testset_name, new_emails = False):
 	testSet, all_files = ex.loadTestset(testset_path, folder_names, wordsd, subd, digramsd, trigramsd)
 	print('New'*new_emails + 'Test'*(not new_emails) + ' Emails Collected.')
 
-	print(len(trainingSet[0]), len(testSet[0]))
 	assert(len(trainingSet[0]) == len(testSet[0]))
 
 	# prepare model

@@ -22,7 +22,8 @@ def main(dataset_name, testset_name, new_emails = False):
 	
 	workfilename = 'mergedworkfile.csv'
 	wordfilename = 'wordfile.csv'
-	klist = [1, 3, 7, 15, 24, 33, 42, 50]
+	# klist = [1, 3, 7, 15, 24, 33, 42, 50]
+	klist = [1, 3]
 	acc = []
 	ks = []
 	trainingSet=[]
@@ -32,7 +33,7 @@ def main(dataset_name, testset_name, new_emails = False):
 	print("Training Set loaded.")
 
 	print('Collecting ' + 'New'*new_emails + 'Test'*(not new_emails) + ' Emails...')
-	testSet = ex.loadTestset(testset_path, folder_names, wordsd, subd, digramsd, trigramsd)
+	testSet, all_files = ex.loadTestset(testset_path, folder_names, wordsd, subd, digramsd, trigramsd)
 	print('New'*new_emails + 'Test'*(not new_emails) + ' Emails Collected.')
 
 	assert(len(trainingSet[0]) == len(testSet[0]))
