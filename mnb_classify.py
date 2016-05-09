@@ -32,6 +32,7 @@ def main(dataset_name, testset_name, new_emails = False):
 	testSet, all_files = ex.loadTestset(testset_path, folder_names, wordsd, subd, digramsd, trigramsd)
 	print('New'*new_emails + 'Test'*(not new_emails) + ' Emails Collected.')
 
+	print(len(trainingSet[0]), len(testSet[0]))
 	assert(len(trainingSet[0]) == len(testSet[0]))
 
 	# prepare model
@@ -56,4 +57,4 @@ def main(dataset_name, testset_name, new_emails = False):
 	print('Find the results at: ' + results_path)
 
 if __name__ == '__main__':
-	main("dataset", "new emails", new_emails = True)
+	main("outlook mails", "outlook test", new_emails = False)

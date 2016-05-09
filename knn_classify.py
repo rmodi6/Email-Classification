@@ -16,7 +16,7 @@ def main(dataset_name, testset_name, new_emails = False):
 	folder_names = next(os.walk(testset_path + "."))[1]
 	if 'results' in folder_names:
 		folder_names.remove('results')
-	# folder_names = ["calendar"]
+	# folder_names = ["calendar", "personal"]
 	if new_emails:
 		folder_names = [""]
 	

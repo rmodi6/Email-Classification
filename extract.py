@@ -618,12 +618,14 @@ def main(dataset_name):
 	global subd, wordsd, digramsd, trigramsd, count_number, count_mail, count_url
 
 	subject_weight = 3
-	cut_off = 30
+	cut_off = 10
 
 	current_path = os.path.dirname(os.path.abspath(__file__)) + "\\"
 	folder_path = current_path + dataset_name + "\\"
 	folder_names = next(os.walk(folder_path + "."))[1]
-	# folder_names = ["calendar"]
+	if 'results' in folder_names:
+		folder_names.remove('results')
+	# folder_names = ["calendar", "personal"]
 
 	print('Collecting Features...')
 	subd, wordsd, digramsd, trigramsd, count_number, count_mail, count_url = collectFeatures()
