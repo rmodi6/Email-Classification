@@ -13,7 +13,7 @@ if __name__ == '__main__':
 	choice = 0
 	while choice != 5:
 		print('\nMenu:')
-		print('1 -> Create Dataset.\n2 -> Classify using kNN.\n3 -> Classify using MNB.\n4 -> Fetch New Emails.\n5 -> Exit.')
+		print('1 -> Create Dataset.\n2 -> Classify using kNN.\n3 -> Classify using MNB.\n4 -> Exit.')
 		choice = int(input('Enter your choice: '))
 		
 		if choice == 1:
@@ -83,8 +83,26 @@ if __name__ == '__main__':
 				elif choice2 == 3:
 					# Classify New Emails
 					dataset_name = input('Enter the name of dataset folder to be used as training set: ')
-					new_emails_name = input('Enter the name of new emails folder: ')
-					knn_classify.main(dataset_name, new_emails_name, new_emails = True)
+					reply = input('Do you want get new unread emails from your email account? (y/n): ')[0].lower()
+					
+					if reply == 'y':
+						usr = input('Email: ')
+						pwd = getpass('Password: ')
+						e = Mail()
+						success = e.login(usr, pwd)
+						if success:
+							new_emails_name = input('Enter a folder name to store new emails: ')
+							new_emails_path = current_path + new_emails_name + "\\"
+							if not os.path.exists(new_emails_path):
+								os.mkdir(new_emails_path)
+							msg_uids = e.fetch_unread(new_emails_path)
+							knn_classify.main(dataset_name, new_emails_name, new_emails = True)
+
+					elif reply == 'n':
+						new_emails_name = input('Enter the name of new emails folder: ')
+						knn_classify.main(dataset_name, new_emails_name, new_emails = True)
+					else:
+						print('Invalid Input.')
 
 				elif choice2 == 4:
 					break
@@ -116,31 +134,35 @@ if __name__ == '__main__':
 				elif choice2 == 3:
 					# Classify New Emails
 					dataset_name = input('Enter the name of dataset folder to be used as training set: ')
-					new_emails_name = input('Enter the name of new emails folder: ')
-					mnb_classify.main(dataset_name, new_emails_name, new_emails = True)
+					reply = input('Do you want get new unread emails from your email account? (y/n): ')[0].lower()
+					
+					if reply == 'y':
+						usr = input('Email: ')
+						pwd = getpass('Password: ')
+						e = Mail()
+						success = e.login(usr, pwd)
+						if success:
+							new_emails_name = input('Enter a folder name to store new emails: ')
+							new_emails_path = current_path + new_emails_name + "\\"
+							if not os.path.exists(new_emails_path):
+								os.mkdir(new_emails_path)
+							msg_uids = e.fetch_unread(new_emails_path)
+							predictions = mnb_classify.main(dataset_name, new_emails_name, new_emails = True)
+							e.assign_label(msg_uids, predictions)
+
+					elif reply == 'n':
+						new_emails_name = input('Enter the name of new emails folder: ')
+						mnb_classify.main(dataset_name, new_emails_name, new_emails = True)
+					else:
+						print('Invalid Input.')
 
 				elif choice2 == 4:
 					break
 
 				else:
 					print('Invalid choice.')
-		
+
 		elif choice == 4:
-			# Fetch new Emails
-			usr = input('Email: ')
-			pwd = getpass('Password: ')
-			e = Mail()
-			success = e.login(usr, pwd)
-			if success:
-				new_emails_name = input('Enter a folder name to store new emails: ')
-				new_emails_path = current_path + new_emails_name + "\\"
-				if not os.path.exists(new_emails_path):
-					os.mkdir(new_emails_path)
-
-				e.fetch_unread(new_emails_path)
-			e.logout()
-
-		elif choice == 5:
 			# Exit
 			exit(0)
 
