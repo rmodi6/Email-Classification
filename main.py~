@@ -153,10 +153,7 @@ if __name__ == '__main__':
 						success = e.login(usr, pwd)
 						if success:
 							new_emails_name = input('Enter a folder name to store new emails: ')
-							if platform.system() == 'Windows':
-								new_emails_path = current_path + new_emails_name + "\\"
-							elif platform.system() == 'Linux':
-								new_emails_path = current_path + new_emails_name + "/"
+							new_emails_path = current_path + new_emails_name + "\\"
 							if not os.path.exists(new_emails_path):
 								os.mkdir(new_emails_path)
 							msg_uids = e.fetch_unread(new_emails_path)

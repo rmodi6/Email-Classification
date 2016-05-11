@@ -56,19 +56,19 @@ def summarize(dataset,noofClasses):
 
 def summarizeByClass(dataset):
 	separated = separateByClass(dataset)
-	classpriorprobabilities=[]
+	classproirprobabilities=[]
 	summaries = {}
 	total=len(separated)
 	for classValue, instances in separated.items():
-		classpriorprobabilities.append(len(instances)/total)
+		classproirprobabilities.append(len(instances)/total)
 		
-	summaries = summarize(dataset,len(classpriorprobabilities))
-	return [summaries,classpriorprobabilities]
+	summaries = summarize(dataset,len(classproirprobabilities))
+	return [summaries,classproirprobabilities]
 
-def calculateClassProbabilities(summaries,classpriorprobabilities, inputVector):
+def calculateClassProbabilities(summaries,classproirprobabilities, inputVector):
 	probabilities = {}
 	for classValue, classSummaries in summaries.items():
-		probabilities[classValue] = 1*classpriorprobabilities[classValue]
+		probabilities[classValue] = 1*classproirprobabilities[classValue]
 		#print(len(classSummaries))
 		for i in range(len(classSummaries)):
 			likelihood = classSummaries[i]
@@ -77,8 +77,8 @@ def calculateClassProbabilities(summaries,classpriorprobabilities, inputVector):
 			
 	return probabilities
 			
-def predict(summaries, classpriorprobabilities,inputVector):
-	probabilities = calculateClassProbabilities(summaries,classpriorprobabilities, inputVector)
+def predict(summaries, classproirprobabilities,inputVector):
+	probabilities = calculateClassProbabilities(summaries,classproirprobabilities, inputVector)
 	bestLabel, bestProb = None, -1
 	for classValue, probability in probabilities.items():
 		if bestLabel is None or probability > bestProb:
@@ -86,13 +86,13 @@ def predict(summaries, classpriorprobabilities,inputVector):
 			bestLabel = classValue
 	return bestLabel
 
-def getPredictions(summaries, classpriorprobabilities, testSet, path):
+def getPredictions(summaries, classproirprobabilities, testSet, path):
 	predictions = []
 	outfile = open(path + "predicted_class.csv",'w') # open file for appending
 
 	print('Completed 0.00%', end = '\r')
 	for i in range(len(testSet)):
-		result = predict(summaries, classpriorprobabilities,testSet[i])
+		result = predict(summaries, classproirprobabilities,testSet[i])
 		outfile.write(str(result)+"\n")
 		predictions.append(result)
 		completed = (i+1)*100/len(testSet)
@@ -128,9 +128,9 @@ def main(dataset_name):
 		trainingSet, testSet = splitDataset(dataset, splitRatio[i])
 		print('Split ratio: {0}% \nSplit {1} rows into train={2} and test={3} rows'.format(splitRatio[i]*100, len(dataset), len(trainingSet), len(testSet)))
 		# prepare model
-		summaries,classpriorprobabilities = summarizeByClass(trainingSet)
+		summaries,classproirprobabilities = summarizeByClass(trainingSet)
 		# test model
-		predictions = getPredictions(summaries, classpriorprobabilities, testSet, results_path)
+		predictions = getPredictions(summaries, classproirprobabilities, testSet, results_path)
 		accuracy = getAccuracy(testSet, predictions)
 		accuracylist.append(accuracy)
 		print('Accuracy: {0}%'.format(accuracy))

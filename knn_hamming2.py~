@@ -18,18 +18,23 @@ def loadDataset(current_path, filename, split, trainingSet=[] , testSet=[]):
 			else:
 				testSet.append(dataset[x])
 
-#Calculates the Manhattan Distance between two features
-def manhattanDistance(instance1, instance2, length):
+#Calculates the Hamming Distance between two features
+def hammingDistance(instance1, instance2, length):
 	distance = 0
 	for x in range(length):
-		distance += abs(instance1[x] - instance2[x])
+		val=int(int(instance1[x])^int(instance2[x]))
+		dist=0
+		while(val!=0):
+			dist+=1
+			val&=val-1
+		distance += dist
 	return distance
 
 def getNeighbors(trainingSet, testInstance, maxk):
 	distances = []
 	length = len(testInstance)-1
 	for x in range(len(trainingSet)):
-		dist = manhattanDistance(testInstance, trainingSet[x], length)
+		dist = hammingDistance(testInstance, trainingSet[x], length)
 		distances.append((trainingSet[x][-1], dist))
 	distances.sort(key=operator.itemgetter(1))
 	neighbors = []
@@ -79,7 +84,7 @@ def classify(klist, trainingSet, testSet, path):
 	return list_of_predictions
 	
 def main(dataset_name):
-	klist = [1, 3, 7, 15, 25, 33, 41, 49]
+	klist = [1, 3, 7, 15, 24, 33, 42, 50]
 	# klist = [1, 3]
 	acc = []
 	ks = []

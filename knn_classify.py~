@@ -11,11 +11,11 @@ def main(dataset_name, testset_name, new_emails = False):
 		trainingset_path = current_path + dataset_name + "\\"
 		testset_path = current_path + testset_name + "\\"
 		results_path = testset_path + "results\\"
-	elif platform.system() == 'Linux':
-		current_path = os.path.dirname(os.path.abspath(__file__)) + "/"
-		trainingset_path = current_path + dataset_name + "/"
-		testset_path = current_path + testset_name + "/"
-		results_path = testset_path + "results/"
+	elif platform.system() == 'Windows':
+		current_path = os.path.dirname(os.path.abspath(__file__)) + "\\"
+		trainingset_path = current_path + dataset_name + "\\"
+		testset_path = current_path + testset_name + "\\"
+		results_path = testset_path + "results\\"
 
 
 	if not os.path.exists(results_path):

@@ -27,7 +27,7 @@ def get_token_dict(folder_path, folder_names):
 	for var in range(len(folder_names)):
 		if platform.system() == 'Windows':
 			path = folder_path + folder_names[var] + "\\"
-		elif platform.system() == 'Linux':
+		if platform.system() == 'Linux':
 			path = folder_path + folder_names[var] + "/"
 		for dirpath, dirs, files in os.walk(path):
 			for f in files:

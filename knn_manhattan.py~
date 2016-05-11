@@ -79,7 +79,7 @@ def classify(klist, trainingSet, testSet, path):
 	return list_of_predictions
 	
 def main(dataset_name):
-	klist = [1, 3, 7, 15, 25, 33, 41, 49]
+	klist = [1, 3, 7, 15, 24, 33, 42, 50]
 	# klist = [1, 3]
 	acc = []
 	ks = []
