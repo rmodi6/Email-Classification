@@ -14,15 +14,27 @@ class Mail():
 		self.password = None
 		self.imap = None
 		self.pattern_uid = re.compile('\d+ \(UID (?P<uid>\d+)\)')
+		self.pattern_email = re.compile(r"(@[a-zA-Z0-9-]+\.)")
 
 	def parse_uid(self, data):
 		match = self.pattern_uid.match(data)
 		return match.group('uid')
+
+	def parse_emailaddr(self, data):
+		match = self.pattern_email.search(data)
+		return match.group()[1:-1]
 	
 	def login(self, username, password):
 		self.username = username
 		self.password = password
-		self.imap = imaplib.IMAP4_SSL(self.OUTLOOK_IMAP_HOST)
+		email_server = self.parse_emailaddr(username)
+
+		if email_server == 'gmail':
+			self.imap = imaplib.IMAP4_SSL(self.GMAIL_IMAP_HOST)
+		elif email_server == 'outlook' or email_server == 'live' or email_server == 'hotmail':
+			self.imap = imaplib.IMAP4_SSL(self.OUTLOOK_IMAP_HOST)
+			
+
 
 		print('Trying to login...')
 		try:
