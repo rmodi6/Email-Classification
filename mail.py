@@ -92,7 +92,7 @@ class Mail():
 		count, msg_uids = 1, []
 
 		for id in data[0].split():
-			resp, items = self.imap.fetch(id, "(UID)")
+			resp, items = self.imap.fetch(id, '(UID)')
 			msg_uids.append(self.parse_uid(items[0].decode('UTF-8')))
 
 			response, data = self.imap.fetch(id, '(RFC822)')
@@ -118,6 +118,7 @@ class Mail():
 	def assign_label(self, msg_uids, predictions):
 
 		for i in range(len(predictions)):
+			mov, data = self.imap.uid('STORE', msg_uids[i] , '-FLAGS', '(\SEEN)')
 			result = self.imap.uid('COPY', msg_uids[i], predictions[i])
 			if result[0] == 'OK':
 				mov, data = self.imap.uid('STORE', msg_uids[i] , '+FLAGS', '(\Deleted)')
