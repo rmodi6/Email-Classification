@@ -84,6 +84,7 @@ def classify(klist, trainingSet, testSet, path):
 	
 def main(dataset_name):
 	klist = [1, 3, 7, 15, 24, 33, 42, 50]
+	# klist = [1, 3]
 	acc = []
 	ks = []
 	trainingSet = []

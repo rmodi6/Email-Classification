@@ -23,6 +23,7 @@ def main(dataset_name, testset_name, new_emails = False):
 	workfilename = 'mergedworkfile.csv'
 	wordfilename = 'wordfile.csv'
 	trainingSet = []
+	predicted_folders = []
 	
 	print("Loading Training Set...")
 	wordsd, subd, digramsd, trigramsd = ex.loadTrainingset(trainingset_path, workfilename, wordfilename, trainingSet)
@@ -32,7 +33,6 @@ def main(dataset_name, testset_name, new_emails = False):
 	testSet, all_files = ex.loadTestset(testset_path, folder_names, wordsd, subd, digramsd, trigramsd)
 	print('New'*new_emails + 'Test'*(not new_emails) + ' Emails Collected.')
 
-	print(len(trainingSet[0]), len(testSet[0]))
 	assert(len(trainingSet[0]) == len(testSet[0]))
 
 	# prepare model
@@ -49,12 +49,14 @@ def main(dataset_name, testset_name, new_emails = False):
 			os.mkdir(results_path + fname)
 	for i in range(len(predictions)):
 		shutil.copy2(all_files[i], results_path + folder_names[predictions[i]])
+		predicted_folders.append(folder_names[predictions[i]])
 
 	if not new_emails:
 		accuracy = mnb.getAccuracy(testSet, predictions)
 		print('Accuracy: {0}%'.format(accuracy))
 
 	print('Find the results at: ' + results_path)
+	return predicted_folders
 
 if __name__ == '__main__':
 	main("outlook mails", "outlook test", new_emails = False)

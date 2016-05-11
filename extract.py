@@ -618,7 +618,7 @@ def main(dataset_name):
 	global subd, wordsd, digramsd, trigramsd, count_number, count_mail, count_url
 
 	subject_weight = 3
-	cut_off = 10
+	cut_off = 5
 
 	current_path = os.path.dirname(os.path.abspath(__file__)) + "\\"
 	folder_path = current_path + dataset_name + "\\"
