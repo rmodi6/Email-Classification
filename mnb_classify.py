@@ -4,7 +4,7 @@ import shutil
 import extract as ex
 
 def main(dataset_name, testset_name, new_emails = False):
-        '''Runs the mnb classifier for a training set dataset_name and test set testset_name'''
+	'''Runs the mnb classifier for a training set dataset_name and test set testset_name'''
 	current_path = os.path.dirname(os.path.abspath(__file__)) + "\\"
 	trainingset_path = current_path + dataset_name + "\\"
 	testset_path = current_path + testset_name + "\\"
@@ -52,7 +52,7 @@ def main(dataset_name, testset_name, new_emails = False):
 		predicted_folders.append(folder_names[predictions[i]])
 		
 	if not new_emails:
-                #Finds the accuracy for new test mails given the predictions for these mails
+				#Finds the accuracy for new test mails given the predictions for these mails
 		accuracy = mnb.getAccuracy(testSet, predictions)
 		print('Accuracy: {0}%'.format(accuracy))
 

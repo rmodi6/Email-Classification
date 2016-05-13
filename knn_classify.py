@@ -40,7 +40,7 @@ def main(dataset_name, testset_name, new_emails = False):
 	list_of_predictions = knn.classify(klist, trainingSet, testSet, results_path)
 
 	if not new_emails:
-                #Finds the predictions and accuracy for new test mails given the predictions for these mails
+		#Finds the predictions and accuracy for new test mails given the predictions for these mails
 		for i in range(len(klist)):
 			predictions = []
 			for x in range(len(testSet)):	
