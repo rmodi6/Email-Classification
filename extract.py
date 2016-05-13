@@ -14,6 +14,7 @@ from nltk.stem.porter import PorterStemmer
 from sklearn.feature_extraction.text import TfidfVectorizer
 
 def tokenize(text):
+	'''Tokenize and Stem words for tf-idf'''
 	tokens = nltk.word_tokenize(text)
 	stems = []
 	for item in tokens:
@@ -21,6 +22,7 @@ def tokenize(text):
 	return stems
 
 def get_token_dict(folder_path, folder_names):
+	'''Create token dictionary for tf-idf'''
 	token_dict = {}
 
 	for var in range(len(folder_names)):
@@ -36,6 +38,7 @@ def get_token_dict(folder_path, folder_names):
 	return token_dict
 
 def collectFeatures():
+	'''Read the email and collect features like words, bigrams, trigrams'''
 	w = []
 	subd, wordsd = {}, {}
 	digramsd={}
@@ -51,16 +54,20 @@ def collectFeatures():
 	stop=stopwords.words("english")
 	counter=0
 
+	# for each folder/category
 	for loop_var in range(len(folder_names)):
 		mypath= folder_path + folder_names[loop_var]
 		os.chdir(mypath)
-		# fp = open(current_path + 'features_' + str(loop_var) + '.txt', 'w')
+		# fp = open(current_path + 'features_' + str(loop_var) + '.txt', 'w') # write features into features.txt file
+		# for each email
 		for fo in listdir(mypath):
 			if isfile(join(mypath,fo)):
 				count_number.append(0)
 				f=open(fo,"r")
 				fr=f.read()
 				subl=[]
+
+				# read and collect features in subject line
 				match=re.search('subject:(.+)\n',fr.lower())
 				if match:
 					subl=subl+[w for w in re.split('\W',match.group(1)) if w]
@@ -98,6 +105,7 @@ def collectFeatures():
 							subd[element]=1
 				f.close()               
 				
+				# read and collect features in email content
 				f=open(fo,"rU")
 				flag=0
 				wordsl=[]
@@ -146,6 +154,7 @@ def collectFeatures():
 						wordsd[element]=1
 				f.close()
 
+				# collect features like email-ids and urls
 				f=open(fo,"rU")
 				count_mail.append(0)
 				count_url.append(0)
@@ -166,6 +175,7 @@ def collectFeatures():
 				counter+=1
 				f.close()
 					
+				# write into features.txt
 				# for p in subd.items():
 				#         fp.write(f.name+":%s:%s\n" % p)
 				# for p in wordsd.items():
@@ -174,19 +184,23 @@ def collectFeatures():
 	return subd, wordsd, digramsd, trigramsd, count_number, count_mail, count_url
 
 def makefiles(workfilename, wordfilename):
+	'''Write collected features into workfiles with names workfilename and wordfilename'''
 	w = []
-	fw = open(folder_path + workfilename, 'w')
-	words_file = open(folder_path + wordfilename, 'w')
+	fw = open(folder_path + workfilename, 'w') # open workfile
+	words_file = open(folder_path + wordfilename, 'w') # open wordfile
 	counter=0
 	stop=stopwords.words("english")
 	
+	# Perform tf-idf
 	token_dict = get_token_dict(folder_path, folder_names)
 	tfidf = TfidfVectorizer(tokenizer=tokenize, stop_words='english')
 	tfs = tfidf.fit_transform(token_dict.values())
 
+	# for each folder/category
 	for loop_var in range(len(folder_names)):
 		mypath = folder_path + folder_names[loop_var]
 		os.chdir(mypath)
+		# write all the feature words into wordfile
 		if loop_var == 0:
 			for elements in wordsd:
 				if wordsd[elements] > cut_off:
@@ -212,6 +226,7 @@ def makefiles(workfilename, wordfilename):
 			words_file.write('\n')
 			words_file.close()
 
+		# for each email
 		for fo in listdir(mypath):
 			if isfile(join(mypath,fo)):
 				subd_temp={}
@@ -224,6 +239,7 @@ def makefiles(workfilename, wordfilename):
 				subl=[]
 				response = tfidf.transform([fr])
 				feature_names = tfidf.get_feature_names()
+				# read and collect features in subject line
 				match=re.search('subject:(.+)\n',fr)
 				if match:
 					subl=subl+[w for w in re.split('\W',match.group(1)) if w]
@@ -257,6 +273,7 @@ def makefiles(workfilename, wordfilename):
 							else:
 								subd_temp[element]=1
 
+				# read and collect features in email content
 				f.close()
 				f=open(fo,"rU")
 				flag=0
@@ -357,6 +374,8 @@ def makefiles(workfilename, wordfilename):
 				fw.write(str(loop_var) + '\n')
 
 def loadTrainingset(current_path, workfilename, wordfilename, trainingSet):
+	'''Load training set and training words from specified files in the given current_path'''
+	# load training set
 	with open(current_path + workfilename, 'r') as csvfile:
 		lines = csv.reader(csvfile)
 		dataset = list(lines)
@@ -366,6 +385,7 @@ def loadTrainingset(current_path, workfilename, wordfilename, trainingSet):
 			trainingSet.append(dataset[x])
 	csvfile.close()
 
+	# load training words
 	with open(current_path + wordfilename, 'r') as csvfile:
 		lines = csv.reader(csvfile)
 		dataset = list(lines)
@@ -382,6 +402,7 @@ def loadTrainingset(current_path, workfilename, wordfilename, trainingSet):
 	return wordsd, subd, digramsd, trigramsd
 
 def loadTestset(folder_path, folder_names, wordsd, subd, digramsd, trigramsd):
+	'''Load test set for new emails'''
 	w = []
 	testSet = []
 	numbers=[]
@@ -398,14 +419,17 @@ def loadTestset(folder_path, folder_names, wordsd, subd, digramsd, trigramsd):
 	similarity_cutoff = 0.8
 	stop=stopwords.words("english")
 
+	# tf-idf
 	token_dict = get_token_dict(folder_path, folder_names)
 	tfidf = TfidfVectorizer(tokenizer=tokenize, stop_words='english')
 	tfs = tfidf.fit_transform(token_dict.values())
 	
+	# for each folder/category (incase where new emails are a test set)
 	for loop_var in range(len(folder_names)):
 		mypath = folder_path + folder_names[loop_var]
 		os.chdir(mypath)
 
+		# for each email
 		for fo in listdir(mypath):
 			if isfile(join(mypath,fo)):
 				all_files.append(mypath + '/' + fo)
@@ -423,6 +447,7 @@ def loadTestset(folder_path, folder_names, wordsd, subd, digramsd, trigramsd):
 				response = tfidf.transform([fr])
 				feature_names = tfidf.get_feature_names()
 
+				# read and collect features in subject line
 				match=re.search('subject:(.+)\n',fr)
 				if match:
 					subl=subl+[w for w in re.split('\W',match.group(1)) if w]
@@ -460,6 +485,7 @@ def loadTestset(folder_path, folder_names, wordsd, subd, digramsd, trigramsd):
 							subd_temp[element]=1
 				f.close()
 
+				# read and collect features in email content
 				f=open(fo,"rU")
 				flag=0
 				wordsl=[]
@@ -507,6 +533,7 @@ def loadTestset(folder_path, folder_names, wordsd, subd, digramsd, trigramsd):
 						wordsd_temp[element]=1
 				f.close()
 
+				# collect additional features like email_ids and urls
 				f=open(fo,"rU")
 				count_mail.append(0)
 				count_url.append(0)
@@ -526,7 +553,7 @@ def loadTestset(folder_path, folder_names, wordsd, subd, digramsd, trigramsd):
 						break
 				f.close()
 
-
+				# collect features using synonyms and similarity in email content
 				for word in wordsd:
 					if word in wordsd_temp:
 						if word in feature_names:
@@ -553,12 +580,13 @@ def loadTestset(folder_path, folder_names, wordsd, subd, digramsd, trigramsd):
 										temp_list.append(wordsd_temp[word2])
 										flag = True
 										break
-									break # Use this to check only first Synsets
+									break # Use this break to check only first Synsets
 								if flag == True:
 									break
 							if flag == False:
 								temp_list.append(0)
 				
+				# collect features using synonyms and similarity in subject line
 				for word in subd:
 					if word in subd_temp:
 						if word in feature_names:
@@ -585,7 +613,7 @@ def loadTestset(folder_path, folder_names, wordsd, subd, digramsd, trigramsd):
 										temp_list.append(subd_temp[word2])
 										flag = True
 										break
-									break # Use this to check only first Synsets
+									break # Use this break to check only first Synsets
 								if flag == True:
 									break
 							if flag == False:
@@ -614,6 +642,7 @@ def loadTestset(folder_path, folder_names, wordsd, subd, digramsd, trigramsd):
 	return testSet, all_files
 
 def main(dataset_name):
+	'''Main function to start execution of extract.py'''
 	global folder_names, subject_weight, cut_off, current_path, folder_path
 	global subd, wordsd, digramsd, trigramsd, count_number, count_mail, count_url
 
@@ -625,7 +654,6 @@ def main(dataset_name):
 	folder_names = next(os.walk(folder_path + "."))[1]
 	if 'results' in folder_names:
 		folder_names.remove('results')
-	# folder_names = ["calendar", "personal"]
 
 	print('Collecting Features...')
 	subd, wordsd, digramsd, trigramsd, count_number, count_mail, count_url = collectFeatures()

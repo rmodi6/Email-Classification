@@ -4,7 +4,7 @@ import extract as ex
 import matplotlib.pyplot as plt
 
 def main(dataset_name, testset_name, new_emails = False):
-	
+	'''Runs the knn classifier for a training set dataset_name and test set testset_name'''
 	current_path = os.path.dirname(os.path.abspath(__file__)) + "\\"
 	trainingset_path = current_path + dataset_name + "\\"
 	testset_path = current_path + testset_name + "\\"
@@ -16,7 +16,6 @@ def main(dataset_name, testset_name, new_emails = False):
 	folder_names = next(os.walk(testset_path + "."))[1]
 	if 'results' in folder_names:
 		folder_names.remove('results')
-	# folder_names = ["calendar", "personal"]
 	if new_emails:
 		folder_names = [""]
 	
@@ -39,8 +38,9 @@ def main(dataset_name, testset_name, new_emails = False):
 	assert(len(trainingSet[0]) == len(testSet[0]))
 
 	list_of_predictions = knn.classify(klist, trainingSet, testSet, results_path)
-		
-	if not new_emails:	
+
+	if not new_emails:
+                #Finds the predictions and accuracy for new test mails given the predictions for these mails
 		for i in range(len(klist)):
 			predictions = []
 			for x in range(len(testSet)):	
