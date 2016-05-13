@@ -6,35 +6,54 @@ import operator
 import matplotlib.pyplot as plt
 
 def loadDataset(current_path, filename, split, trainingSet=[] , testSet=[]):
-	#labels = open('label.txt','r')
-	#label = labels.readlines()
-	#trainlabels = open('trainlabel','w')
-	#testlabels = open('testlabel', 'w')
+        '''Loads the dataset from the current_path and filename and splits it according to the split ratio into trainingSet and testSet'''
 	with open(current_path + filename, 'r') as csvfile:
 		lines = csv.reader(csvfile)
 		dataset = list(lines)
+		#Splits the dataset into training set and test set
 		for x in range(len(dataset)):
 			for y in range(len(dataset[x])):
-				dataset[x][y] = float(dataset[x][y])
+				dataset[x][y] = float(dataset[x][y])	
 			if random.random() < split:
 				trainingSet.append(dataset[x])
-				#trainlabels.write(str(label[x]))
 			else:
 				testSet.append(dataset[x])
-				#testlabels.write(str(label[x]))
+
+def hammingDistance(instance1, instance2, length):
+        '''Calculates the distance using Hamming Distance metric between instance1 email and instance2 email for a total of length features'''
+	distance = 0
+	for x in range(length):
+		val=int(pow(instance1[x],instance2[x]))
+		dist=0
+		while(val!=0):
+			dist+=1
+			val&=val-1
+		distance += dist
+	return distance
+
+def manhattanDistance(instance1, instance2, length):
+        '''Calculates the distance using Manhattan Distance metric between instance1 email and instance2 email for a total of length features'''
+	distance = 0
+	for x in range(length):
+		distance += abs(instance1[x] - instance2[x])
+	return distance
 
 def euclideanDistance(instance1, instance2, length):
+        '''Calculates the distance using Euclidean Distance metric between instance1 email and instance2 email for a total of length features'''
 	distance = 0
 	for x in range(length):
 		distance += pow((instance1[x] - instance2[x]), 2)
 	return math.sqrt(distance)
 
 def getNeighbors(trainingSet, testInstance, maxk):
+        '''Finds the list of maxk nearest neighbors for the testInstance email in the trainingSet of all emails'''
 	distances = []
 	length = len(testInstance)-1
 	for x in range(len(trainingSet)):
+                #Distance can be calculated using euclideanDistance(), manhattanDistance() and hammingDistance() metrics
 		dist = euclideanDistance(testInstance, trainingSet[x], length)
 		distances.append((trainingSet[x][-1], dist))
+	#Sorts the distances and appends the k neighbors having least distances to the neighbors list	
 	distances.sort(key=operator.itemgetter(1))
 	neighbors = []
 	for x in range(maxk):
@@ -42,6 +61,7 @@ def getNeighbors(trainingSet, testInstance, maxk):
 	return neighbors
 
 def getResponse(neighbors, k):
+        '''Gives the class vote for a set of neighbors for a given value of k'''
 	classVotes = {}
 	for x in range(k):
 		response = neighbors[x]
@@ -50,10 +70,10 @@ def getResponse(neighbors, k):
 		else:
 			classVotes[response] = 1
 	sortedVotes = sorted(classVotes.items(), key=operator.itemgetter(1), reverse=True)
-	# print(sortedVotes)
 	return sortedVotes[0][0]
 
 def getAccuracy(testSet, predictions):
+        '''Calculates the accuracy of classifying emails in testSet given the predictions of these emails'''
 	correct = 0
 	for x in range(len(testSet)):
 		if testSet[x][-1] == predictions[x]:
@@ -61,8 +81,10 @@ def getAccuracy(testSet, predictions):
 	return (correct/float(len(testSet))) * 100.0
 
 def classify(klist, trainingSet, testSet, path):
+        '''Classifies the testSet using the trainingSet for klist and stores the predicted results at path'''
 	list_of_predictions = []
 	print('Completed 0.00%', end = '\r')
+	#Find the k nearest neighbors for each test mail and predict the class of each test mail using these neighbors
 	for x in range(len(testSet)):
 		predictions = []
 		neighbors = getNeighbors(trainingSet, testSet[x], klist[-1])
@@ -72,19 +94,16 @@ def classify(klist, trainingSet, testSet, path):
 		list_of_predictions.append(predictions)
 		completed = (x+1)*100/len(testSet)
 		print('Completed {0:.2f}%'.format(completed), end = '\r')
-		#print('> predicted=' + repr(result) + ', actual=' + repr(testSet[x][-1]))
 	print('Completed 100.00%')
-
 	for i in range(len(klist)):
-		outfile = open(path + "predicted_class_"+str(klist[i])+".csv",'w') # open file for appending
+                # Opens file for appending
+		outfile = open(path + "predicted_class_"+str(klist[i])+".csv",'w') 
 		for x in range(len(testSet)):	
 			outfile.write(str(list_of_predictions[x][i])+"\n")
-
 	return list_of_predictions
 	
 def main(dataset_name):
 	klist = [1, 3, 7, 15, 24, 33, 42, 50]
-	# klist = [1, 3]
 	acc = []
 	ks = []
 	trainingSet = []
