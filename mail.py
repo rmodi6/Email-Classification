@@ -61,8 +61,11 @@ class Mail():
 
 	def list(self):
 		'''Get a list of all the folders in the email account'''
-		response, results = self.imap.list()
+		response, mailbox_list = self.imap.list()
 		if response == 'OK':
+			results = []
+			for mailbox in mailbox_list:
+				results.append(mailbox.decode("utf-8").split('"/"')[-1].replace('"', '').strip())
 			return results
 
 	def select(self, mailbox_name):
