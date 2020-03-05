@@ -7,7 +7,7 @@ In the world of Internet today, huge amount of data is transferred between compu
 
 ### Project Demo
 
-Have a look at the working demonstration of the project [here](https://youtu.be/0bxs2zrR5fU)
+[![Email Classification Project Demonstration](https://img.youtube.com/vi/0bxs2zrR5fU/0.jpg)](https://www.youtube.com/watch?v=0bxs2zrR5fU "Click to play the video")
 
 ### Publication
 
