@@ -18,7 +18,7 @@ if __name__ == '__main__':
 		
 		if choice == 1:
 			# Create Dataset
-			reply = input('Do you want get emails from your email account? (y/n): ')[0].lower()
+			reply = input('Do you want to get emails from your email account? (y/n): ')[0].lower()
 			if reply == 'n':
 				dataset_name = input('Enter the name of existing dataset folder: ')
 				ex.main(dataset_name)
