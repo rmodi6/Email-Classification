@@ -79,7 +79,7 @@ class Mail():
 
 	def fetch_mailbox(self, path, mailbox_name):
 		'''Fetch all the emails from mailbox_name folder into specified path'''
-		folder_path = path + mailbox_name + "\\"
+		folder_path = os.path.join(path, mailbox_name)
 		if not os.path.exists(folder_path):
 			os.mkdir(folder_path)
 
@@ -100,7 +100,7 @@ class Mail():
 
 			msg = email.message_from_string(data[0][1].decode("utf-8"))
 			
-			outfile = open(folder_path + str(count) + ".txt", 'w') # open file for appending
+			outfile = open(os.path.join(folder_path, str(count) + ".txt"), 'w') # open file for appending
 			outfile.write("Subject: " + msg['Subject'] + "\n")
 			# print ('Message %s: %s' % (id, msg['Subject']))
 

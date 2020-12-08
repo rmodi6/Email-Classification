@@ -9,7 +9,7 @@ from pprint import pprint
 from getpass import getpass
 
 if __name__ == '__main__':
-	current_path = os.path.dirname(os.path.abspath(__file__)) + "\\"
+	current_path = os.path.dirname(os.path.abspath(__file__))
 	choice = 0
 	while choice != 5:
 		print('\nMenu:')
@@ -29,7 +29,7 @@ if __name__ == '__main__':
 				success = e.login(usr, pwd)
 				if success:
 					dataset_name = input('Enter a name for your dataset: ')
-					dataset_path = current_path + dataset_name + "\\"
+					dataset_path = os.path.join(current_path, dataset_name)
 					if not os.path.exists(dataset_path):
 						os.mkdir(dataset_path)
 

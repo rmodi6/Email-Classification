@@ -56,7 +56,7 @@ def collectFeatures():
 
 	# for each folder/category
 	for loop_var in range(len(folder_names)):
-		mypath= folder_path + folder_names[loop_var]
+		mypath = join(folder_path, folder_names[loop_var])
 		os.chdir(mypath)
 		# fp = open(current_path + 'features_' + str(loop_var) + '.txt', 'w') # write features into features.txt file
 		# for each email
@@ -649,9 +649,9 @@ def main(dataset_name):
 	subject_weight = 3
 	cut_off = 5
 
-	current_path = os.path.dirname(os.path.abspath(__file__)) + "\\"
-	folder_path = current_path + dataset_name + "\\"
-	folder_names = next(os.walk(folder_path + "."))[1]
+	current_path = os.path.dirname(os.path.abspath(__file__))
+	folder_path = os.path.join(current_path, dataset_name)
+	folder_names = next(os.walk(folder_path))[1]
 	if 'results' in folder_names:
 		folder_names.remove('results')
 
